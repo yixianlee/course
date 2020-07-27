@@ -1,7 +1,7 @@
 # the environment
 FROM node:14
 
-# environment variable to define my workspace
+# environment variable to define my workspace test
 ENV APP_DIR=/app APP_PORT=3000 
 
 #for database
@@ -11,7 +11,7 @@ ENV DB_PORT=3306 DB_USER='root' DB_PASSWORD='changeit'
 # mkdir /app
 # cd /app
 WORKDIR ${APP_DIR}
-
+ 
 # copy the file fortune into /app
 # ADD local image
 # copy the files
