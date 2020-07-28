@@ -32,7 +32,7 @@ spec:
       containers:
       - name: fortune-container
         image: chukmunnlee/fortune:v1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: IfNotPresent 
         ports: 
         - name: for-port
           containerPort: 3000
@@ -51,5 +51,5 @@ spec:
   selector:
     app: fortune-pod
   ports: 
-  - port: 8080
+  - port: 80
     targetPort: for-port
