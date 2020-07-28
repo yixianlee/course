@@ -1,39 +1,44 @@
----
-apiVersion: v1
-kind: Namespace
-metadata: 
-  name: nw
-  labels: 
-    app: nwdb
-    version: v1
+--- 
+apiVersion : v1
+kind: Secret
+metadata:
+  name: nw-secret
+  labels:
+    app: northwind
+
+data:
+  MYSQL_ROOT_PASSWORD: Y2hhbmdlaXQ=
+
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nwdb-deploy
-  namespace: nw
   labels:
-    app : nwdb 
+    app : northwind 
 
 spec: 
   replicas: 1
   selector: 
     matchLabels:
-      app: nwdb-pod
+      app: northwind
       
   template: 
     metadata:
       name: nwdb-pod
       labels: 
-        app: nwdb-pod
+        app: northwind
     spec: 
       containers:
       - name: nwdb-container
         image: hamsterboyboy/my-db:v3
         imagePullPolicy: IfNotPresent
+        envFrom: 
+        - secretRef: 
+            name: nw-secret
         ports: 
-        - name: for-port
+        - name: nwdb-port
           containerPort: 3306
 
 ---
@@ -51,4 +56,4 @@ spec:
     app: nwdb-pod
   ports: 
   - port: 3306
-    targetPort: for-port
+    targetPort: nwdb-port
