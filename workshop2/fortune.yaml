@@ -34,4 +34,22 @@ spec:
         image: chukmunnlee/fortune:v1
         imagePullPolicy: IfNotPresent
         ports: 
-        - containerPort: 3000
+        - name: for-port
+          containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fortune-svc
+  namespace: fortune-ns
+  labels:
+    app : fortune
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: fortune-pod
+  ports: 
+  - port: 8080
+    targetPort: for-port
