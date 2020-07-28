@@ -46,14 +46,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nwdb-svc
-  namespace: nw
   labels:
-    app : nwdb
+    app : northwind
 
 spec:
   type: ClusterIP
   selector:
-    app: nwdb-pod
+    app: northwind
   ports: 
   - port: 3306
     targetPort: nwdb-port
