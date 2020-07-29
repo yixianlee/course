@@ -53,3 +53,22 @@ spec:
   ports: 
   - port: 3000
     targetPort: for-port
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: fortune-ing
+  labels:
+    app : fortune
+
+spec:
+  rules:
+  - host: fortune.167.172.6.206.nip.io
+    http: 
+      paths:
+      - path: /
+        backend:
+          serviceName: fortune-svc
+          servicePort: for-port
+
