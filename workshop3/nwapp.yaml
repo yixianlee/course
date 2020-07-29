@@ -35,6 +35,12 @@ spec:
       - name: nwapp-container
         image: hamsterboyboy/my-nwapp:v2
         imagePullPolicy: IfNotPresent
+        resources: 
+          requests:
+            cpu: 200m
+            memory: 16Mi
+          limits:
+            memory: 32Mi
         env:
         - name: DB_PASSWORD
           valueFrom:
@@ -86,3 +92,31 @@ spec:
         backend:
           serviceName: nwapp-svc
           servicePort: 3000
+
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nwapp-hpa
+  labels:
+    app : northwind
+
+spec:
+  minReplicas: 1
+  maxReplicas: 4
+  scaleTargetRef:
+    kind: Deployment
+    name: nwapp-deploy
+  metrics:
+  - type: Resource
+    resource: 
+      name: memory
+      target: 
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource
+    resource: 
+      name: cpu
+      target: 
+        type: Utilization
+        averageUtilization: 15
